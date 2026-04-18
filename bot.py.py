@@ -5,10 +5,10 @@ import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
 
-TOKEN = "8572966464:AAGVOZgABxMg3boLEpmB3JyDtp-xG6hA3aM"
+# 🔥 LẤY TOKEN TỪ RAILWAY
+TOKEN = os.getenv("TOKEN")
 
-# 💥 FIX QUYỀN FILE → lưu ra Desktop
-DATA_FILE = os.path.join(os.path.expanduser("~"), "Desktop", "data.json")
+DATA_FILE = "data.json"
 
 # ================== LOAD & SAVE ==================
 def load_data():
@@ -110,7 +110,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     except Exception as e:
         print("LOI THAT:", e)
-        await query.message.reply_text("❌ Lỗi rồi, xem CMD")
+        await query.message.reply_text("❌ Lỗi rồi, xem Logs")
 
 # ================== NẠP ==================
 async def nap(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -136,6 +136,10 @@ async def money(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"💰 {users.get(user_id,10000)}")
 
 # ================== RUN ==================
+if not TOKEN:
+    print("❌ CHUA CO TOKEN!")
+    exit()
+
 app = ApplicationBuilder().token(TOKEN).build()
 
 app.add_handler(CommandHandler("start", start))
